@@ -1,4 +1,5 @@
-/* UNIVERSITY OF SUFFOLK - INTRODUCTION PROGRAMMING 
+package src;
+/* UNIVERSITY OF SUFFOLK - INTRODUCTION PROGRAMMING
  * Module assignment
  * 
  * Module Lead: Dr. Syed Aslam
@@ -37,52 +38,54 @@
 import java.io.*;
 import java.util.Scanner;
 
-public class store
-{
-	public static void main(String args[])
-	{
 
-		Scanner input = new Scanner(System.in);
-		
-		System.out.println("I N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
+public class store {
+	private static Scanner userInputScanner = new Scanner(System.in);
+	public static void main(String args[]) {
+		int userInput = 0;
+		while (userInput != 6) {
+			 userInput = getMenuChoice(userInputScanner);
+			 if(userInput==6)break;
+			switch (userInput) {
+				case 1:
+					System.out.println("New Item Added");
+					break;
+				case 2:
+					System.out.println("Item quantity updated");
+					break;
+				case 3:
+					System.out.println("Item Removed");
+					break;
+				case 4:
+					System.out.println("Report printed");
+					break;
+				case 5:
+					System.out.println("Item File");
+					ItemFileHandler fileHandler = new ItemFileHandler();
+					fileHandler.read();
+					break;
+				default:
+					System.out.println("Incorrect input, please try again");
+			}
+		}
+
+
+		System.out.println("\n\n Thanks for using this program...!");
+	}
+	private static int getMenuChoice(Scanner inp){
+
+		System.out.println("\n\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
 		System.out.println("2. UPDATE QUANTITY OF EXISTING ITEM");
 		System.out.println("3. REMOVE ITEM");
 		System.out.println("4. VIEW DAILY TRANSACTION REPORT");
+		System.out.println("5. Output items file");
 		System.out.println("---------------------------------");
-		System.out.println("5. Exit");
-		
-		
-		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
-		int userinput = input.nextInt();
-			
+		System.out.println("6. Exit");
 
-		while(userinput !=5)
-		{
-			if (userinput>5 || userinput<1) {
-				System.out.println("This doesn't appear to be a valid option...!");
-				break;
-			}
-			if (userinput == 1)	{
-				System.out.print("\n New Item Added");	
-				break;
-			}
-			else if (userinput == 2) {		
-				System.out.print("\n Item quantity updated");
-				break;
-			}
-			else if (userinput == 3) {
-				System.out.print("\n Item Removed");
-				break;
-			}	
-			else if (userinput == 4) {
-				System.out.print("\n Report printed");	
-				break;
-			}	
-			
-		}
-		
-	System.out.println("\n\n Thanks for using this program...!");
+		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
+		return inp.nextInt();
+
 	}
 }

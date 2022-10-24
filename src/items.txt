@@ -7,4 +7,3 @@ id,description,unitPrice,qtyInStock,totalPrice
 00006,item6,4500.0,20,90000.0
 00007,item7,3000.0,15,45000.0
 00008,item8,2500.0,100,250000.0
-
