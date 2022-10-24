@@ -36,11 +36,14 @@ package src;
 
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 
 public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
+	private static ItemFileHandler itemFileHandler = new ItemFileHandler();
+
 	public static void main(String args[]) {
 		int userInput = 0;
 		while (userInput != 6) {
@@ -48,7 +51,12 @@ public class store {
 			 if(userInput==6)break;
 			switch (userInput) {
 				case 1:
-					System.out.println("New Item Added");
+					LinkedList<String[]> lines = itemFileHandler.readLines();
+					String itemID = generateItemID(lines);
+					if (itemID==null) System.out.println("Out of IDs");
+					else{
+
+					}
 					break;
 				case 2:
 					System.out.println("Item quantity updated");
@@ -61,8 +69,7 @@ public class store {
 					break;
 				case 5:
 					System.out.println("Item File");
-					ItemFileHandler fileHandler = new ItemFileHandler();
-					fileHandler.read();
+					LinkedList<String[]> newLines = itemFileHandler.readLines();
 					break;
 				default:
 					System.out.println("Incorrect input, please try again");
@@ -73,7 +80,7 @@ public class store {
 		System.out.println("\n\n Thanks for using this program...!");
 	}
 	private static int getMenuChoice(Scanner inp){
-
+		//Validate its Int?
 		System.out.println("\n\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
@@ -87,5 +94,18 @@ public class store {
 		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
 		return inp.nextInt();
 
+	}
+
+	private static String generateItemID(LinkedList<String[]> lines){
+		int largestID = Integer.MIN_VALUE;
+		int currentID = 0;
+		for (String[] line : lines){
+			currentID = Integer.parseInt(line[0]);
+			if (currentID>largestID)largestID=currentID;
+		}
+		if(currentID<99999) currentID++;
+		else return null;
+		String newID = String.format("%05d",currentID);
+		return newID;
 	}
 }
