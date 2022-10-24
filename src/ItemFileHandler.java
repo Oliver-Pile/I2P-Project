@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class ItemFileHandler {
-    private final File itemFile = new File("items.txt");
+    private final File itemFile = new File("src/items.txt");
 
 
     public void read() {
