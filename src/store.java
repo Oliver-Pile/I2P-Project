@@ -58,7 +58,8 @@ public class store {
 						String[] newItem = getNewItemDetails();
 						String newItemString = String.format("%s,%s,%s,%s,%s%n",itemID,newItem[0],newItem[1],newItem[2],newItem[3]);
 						boolean result = itemFileHandler.add(newItemString);
-
+						if(result) System.out.println("New item successfully added");
+						else System.out.println("Item not added, please try again");
 					}
 					break;
 				case 2:
@@ -88,7 +89,7 @@ public class store {
 	private static int getMenuChoice(){
 		//Validate its Int?
 
-		System.out.println("\n\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
+		System.out.println("\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
 		System.out.println("2. UPDATE QUANTITY OF EXISTING ITEM");
