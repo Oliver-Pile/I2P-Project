@@ -47,7 +47,7 @@ public class store {
 	public static void main(String args[]) {
 		int userInput = 0;
 		while (userInput != 6) {
-			 userInput = getMenuChoice(userInputScanner);
+			 userInput = getMenuChoice();
 			 if(userInput==6)break;
 			switch (userInput) {
 				case 1:
@@ -55,7 +55,11 @@ public class store {
 					String itemID = generateItemID(lines);
 					if (itemID==null) System.out.println("Out of IDs");
 					else{
-
+						String[] newItem = getNewItemDetails();
+						String newItemString = String.format("%s,%s,%s,%s,%s%n",itemID,newItem[0],newItem[1],newItem[2],newItem[3]);
+						boolean result = itemFileHandler.add(newItemString);
+						if(result) System.out.println("New item successfully added");
+						else System.out.println("Item not added, please try again");
 					}
 					break;
 				case 2:
@@ -82,9 +86,10 @@ public class store {
 
 		System.out.println("\n\n Thanks for using this program...!");
 	}
-	private static int getMenuChoice(Scanner inp){
+	private static int getMenuChoice(){
 		//Validate its Int?
-		System.out.println("\n\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
+
+		System.out.println("\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
 		System.out.println("2. UPDATE QUANTITY OF EXISTING ITEM");
@@ -93,10 +98,11 @@ public class store {
 		System.out.println("5. Output items file");
 		System.out.println("---------------------------------");
 		System.out.println("6. Exit");
-
 		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
-		return inp.nextInt();
+		int choice = userInputScanner.nextInt();
+		userInputScanner.nextLine();
 
+		return choice;
 	}
 
 	private static String generateItemID(LinkedList<String[]> lines){
@@ -110,5 +116,20 @@ public class store {
 		else return null;
 		String newID = String.format("%05d",currentID);
 		return newID;
+	}
+
+	private static String[] getNewItemDetails(){
+		System.out.println("Entering new Item section");
+		String[] itemDetails = new String[4];
+		System.out.println("Please enter item description");
+		itemDetails[0] = userInputScanner.nextLine();
+		System.out.println("Please enter unit price");
+		double x = userInputScanner.nextDouble();
+		userInputScanner.nextLine();
+		itemDetails[1] = String.format("%.2f",x);
+		System.out.println("Please enter total quantity in stock");
+		itemDetails[2] = userInputScanner.nextLine();
+		itemDetails[3] = String.format("%.2f",Double.parseDouble(itemDetails[1])*Double.parseDouble(itemDetails[2]));
+		return itemDetails;
 	}
 }
