@@ -1,4 +1,4 @@
-/* UNIVERSITY OF SUFFOLK - INTRODUCTION PROGRAMMING 
+package src;/* UNIVERSITY OF SUFFOLK - INTRODUCTION PROGRAMMING
  * Module assignment
  * 
  * Module Lead: Dr. Syed Aslam
@@ -37,13 +37,11 @@
 import java.io.*;
 import java.util.Scanner;
 
-public class store
-{
-	public static void main(String args[])
-	{
+public class store {
+	public static void main(String args[]) {
 
 		Scanner input = new Scanner(System.in);
-		
+
 		System.out.println("I N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
@@ -53,43 +51,35 @@ public class store
 		System.out.println("5. Output items file");
 		System.out.println("---------------------------------");
 		System.out.println("6. Exit");
-		
-		
+
+
 		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
 		int userinput = input.nextInt();
-			
 
-		while(userinput !=6)
-		{
-			if (userinput>5 || userinput<1) {
-				System.out.println("This doesn't appear to be a valid option...!");
+
+		switch (userinput) {
+			case 1:
+				System.out.print("\n New Item Added");
 				break;
-			}
-			if (userinput == 1)	{
-				System.out.print("\n New Item Added");	
-				break;
-			}
-			else if (userinput == 2) {		
+			case 2:
 				System.out.print("\n Item quantity updated");
 				break;
-			}
-			else if (userinput == 3) {
+			case 3:
 				System.out.print("\n Item Removed");
 				break;
-			}	
-			else if (userinput == 4) {
-				System.out.print("\n Report printed");	
+			case 4:
+				System.out.print("\n Report printed");
 				break;
-			}
-			else if (userinput == 5) {
+			case 5:
 				System.out.print("\n Item File\n");
 				ItemFileHandler fileHandler = new ItemFileHandler();
 				fileHandler.read();
 				break;
-			}
-			
+			default:
+				System.out.println("Incorrect input, please try again");
 		}
-		
-	System.out.println("\n\n Thanks for using this program...!");
+
+
+		System.out.println("\n\n Thanks for using this program...!");
 	}
 }
