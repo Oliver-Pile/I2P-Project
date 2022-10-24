@@ -16,7 +16,6 @@ public class ItemFileHandler {
                 String line = reader.nextLine();
                 String[] splitLine = line.split(",");
                 lines.add(splitLine);
-
             }
             reader.close();
             return lines;
@@ -26,5 +25,17 @@ public class ItemFileHandler {
             return null;
         }
 
+    }
+
+    public boolean add(String toAppend){
+        try {
+            FileWriter fw = new FileWriter(itemFile,true);
+            fw.write(toAppend);
+            fw.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

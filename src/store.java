@@ -56,6 +56,9 @@ public class store {
 					if (itemID==null) System.out.println("Out of IDs");
 					else{
 						String[] newItem = getNewItemDetails();
+						String newItemString = String.format("%s,%s,%s,%s,%s%n",itemID,newItem[0],newItem[1],newItem[2],newItem[3]);
+						boolean result = itemFileHandler.add(newItemString);
+
 					}
 					break;
 				case 2:
@@ -121,6 +124,7 @@ public class store {
 		itemDetails[0] = userInputScanner.nextLine();
 		System.out.println("Please enter unit price");
 		double x = userInputScanner.nextDouble();
+		userInputScanner.nextLine();
 		itemDetails[1] = String.format("%.2f",x);
 		System.out.println("Please enter total quantity in stock");
 		itemDetails[2] = userInputScanner.nextLine();
