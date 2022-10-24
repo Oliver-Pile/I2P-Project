@@ -39,10 +39,40 @@ import java.util.Scanner;
 
 public class store {
 	public static void main(String args[]) {
-
+		int userInput = 0;
 		Scanner input = new Scanner(System.in);
+		while (userInput != 6) {
+			 userInput = getMenuChoice(input);
+			 if(userInput==6)break;
+			switch (userInput) {
+				case 1:
+					System.out.println("New Item Added");
+					break;
+				case 2:
+					System.out.println("Item quantity updated");
+					break;
+				case 3:
+					System.out.println("Item Removed");
+					break;
+				case 4:
+					System.out.println("Report printed");
+					break;
+				case 5:
+					System.out.println("Item File");
+					ItemFileHandler fileHandler = new ItemFileHandler();
+					fileHandler.read();
+					break;
+				default:
+					System.out.println("Incorrect input, please try again");
+			}
+		}
 
-		System.out.println("I N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
+
+		System.out.println("\n\n Thanks for using this program...!");
+	}
+	private static int getMenuChoice(Scanner inp){
+
+		System.out.println("\n\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
 		System.out.println("2. UPDATE QUANTITY OF EXISTING ITEM");
@@ -52,34 +82,8 @@ public class store {
 		System.out.println("---------------------------------");
 		System.out.println("6. Exit");
 
-
 		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
-		int userinput = input.nextInt();
-
-
-		switch (userinput) {
-			case 1:
-				System.out.print("\n New Item Added");
-				break;
-			case 2:
-				System.out.print("\n Item quantity updated");
-				break;
-			case 3:
-				System.out.print("\n Item Removed");
-				break;
-			case 4:
-				System.out.print("\n Report printed");
-				break;
-			case 5:
-				System.out.print("\n Item File\n");
-				ItemFileHandler fileHandler = new ItemFileHandler();
-				fileHandler.read();
-				break;
-			default:
-				System.out.println("Incorrect input, please try again");
-		}
-
-
-		System.out.println("\n\n Thanks for using this program...!");
+		int userinput = inp.nextInt();
+		return userinput;
 	}
 }
