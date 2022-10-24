@@ -1,4 +1,5 @@
-package src;/* UNIVERSITY OF SUFFOLK - INTRODUCTION PROGRAMMING
+package src;
+/* UNIVERSITY OF SUFFOLK - INTRODUCTION PROGRAMMING
  * Module assignment
  * 
  * Module Lead: Dr. Syed Aslam
@@ -37,12 +38,13 @@ package src;/* UNIVERSITY OF SUFFOLK - INTRODUCTION PROGRAMMING
 import java.io.*;
 import java.util.Scanner;
 
+
 public class store {
+	private static Scanner userInputScanner = new Scanner(System.in);
 	public static void main(String args[]) {
 		int userInput = 0;
-		Scanner input = new Scanner(System.in);
 		while (userInput != 6) {
-			 userInput = getMenuChoice(input);
+			 userInput = getMenuChoice(userInputScanner);
 			 if(userInput==6)break;
 			switch (userInput) {
 				case 1:
@@ -83,7 +85,7 @@ public class store {
 		System.out.println("6. Exit");
 
 		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
-		int userinput = inp.nextInt();
-		return userinput;
+		return inp.nextInt();
+
 	}
 }
