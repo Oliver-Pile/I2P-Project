@@ -1,11 +1,11 @@
 package src;
 
 public class Item {
-    String ID;
-    String desc;
-    double price;
-    int quantity;
-    double totalPrice;
+    private String ID;
+    private String desc;
+    private double price;
+    private int quantity;
+    private double totalPrice;
 
     public Item(String line){
         String[] splitLine = line.split(",");
