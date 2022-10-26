@@ -21,4 +21,12 @@ public class Item {
         this.quantity = quantity;
         this.totalPrice = price * quantity;
     }
+
+    public String getItemDetails(){
+        return String.format("ID: %s, Description: %s, Unit Price: %s, Quantity in Stock: %s, Total price: %s",
+                this.ID,this.desc,this.price,this.quantity,this.totalPrice);
+    }
+    public int getID(){
+        return Integer.parseInt(this.ID);
+    }
 }
