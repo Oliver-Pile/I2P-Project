@@ -14,8 +14,7 @@ public class ItemFileHandler {
             Scanner reader = new Scanner(itemFile);
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
-                String[] splitLine = line.split(",");
-                items.add(new Item(splitLine));
+                items.add(new Item(line));
             }
             reader.close();
             return items;
@@ -27,10 +26,10 @@ public class ItemFileHandler {
 
     }
 
-    public boolean add(String toAppend){
+    public boolean add(Item item){
         try {
             FileWriter fw = new FileWriter(itemFile,true);
-            fw.write(toAppend);
+            fw.write(item.getFileString());
             fw.close();
             return true;
         } catch (IOException e) {

@@ -7,12 +7,13 @@ public class Item {
     int quantity;
     double totalPrice;
 
-    public Item(String[] line){
-        this.ID = line[0];
-        this.desc = line[1];
-        this.price = Double.parseDouble(line[2]);
-        this.quantity = Integer.parseInt(line[3]);
-        this.totalPrice = Double.parseDouble(line[4]);
+    public Item(String line){
+        String[] splitLine = line.split(",");
+        this.ID = splitLine[0];
+        this.desc = splitLine[1];
+        this.price = Double.parseDouble(splitLine[2]);
+        this.quantity = Integer.parseInt(splitLine[3]);
+        this.totalPrice = Double.parseDouble(splitLine[4]);
     }
     public Item (String ID, String desc, double price, int quantity){
         this.ID = ID;
@@ -28,5 +29,8 @@ public class Item {
     }
     public int getID(){
         return Integer.parseInt(this.ID);
+    }
+    public String getFileString(){
+        return String.format("%s,%s,%.2f,%s,%.2f%n",this.ID,this.desc,this.price,this.quantity,this.totalPrice);
     }
 }

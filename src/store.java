@@ -55,9 +55,8 @@ public class store {
 					String itemID = generateItemID(items);
 					if (itemID==null) System.out.println("Out of IDs");
 					else{
-						String[] newItem = getNewItemDetails();
-						String newItemString = String.format("%s,%s,%s,%s,%s%n",itemID,newItem[0],newItem[1],newItem[2],newItem[3]);
-						boolean result = itemFileHandler.add(newItemString);
+						Item newItem = createNewItem(itemID);
+						boolean result = itemFileHandler.add(newItem);
 						if(result) System.out.println("New item successfully added");
 						else System.out.println("Item not added, please try again");
 					}
@@ -118,18 +117,16 @@ public class store {
 		return newID;
 	}
 
-	private static String[] getNewItemDetails(){
-		System.out.println("Entering new Item section");
-		String[] itemDetails = new String[4];
+	private static Item createNewItem(String itemID){
+		System.out.println("*** Entering new Item section ***");
 		System.out.println("Please enter item description");
-		itemDetails[0] = userInputScanner.nextLine();
+		String desc = userInputScanner.nextLine();
 		System.out.println("Please enter unit price");
-		double x = userInputScanner.nextDouble();
+		double price = userInputScanner.nextDouble();
 		userInputScanner.nextLine();
-		itemDetails[1] = String.format("%.2f",x);
 		System.out.println("Please enter total quantity in stock");
-		itemDetails[2] = userInputScanner.nextLine();
-		itemDetails[3] = String.format("%.2f",Double.parseDouble(itemDetails[1])*Double.parseDouble(itemDetails[2]));
-		return itemDetails;
+		int quantity = userInputScanner.nextInt();
+		userInputScanner.nextLine();
+		return new Item(itemID,desc,price,quantity);
 	}
 }
