@@ -51,8 +51,8 @@ public class store {
 			 if(userInput==6)break;
 			switch (userInput) {
 				case 1:
-					LinkedList<String[]> lines = itemFileHandler.readLines();
-					String itemID = generateItemID(lines);
+					LinkedList<Item> items = itemFileHandler.readLines();
+					String itemID = generateItemID(items);
 					if (itemID==null) System.out.println("Out of IDs");
 					else{
 						String[] newItem = getNewItemDetails();
@@ -73,9 +73,9 @@ public class store {
 					break;
 				case 5:
 					System.out.println("Item File");
-					LinkedList<String[]> readLines = itemFileHandler.readLines();
-					for (String[] splitLine : readLines){
-						System.out.printf("ID: %s, Description: %s, Unit Price: %s, Quantity in Stock: %s, Total price: %s%n",splitLine[0],splitLine[1],splitLine[2],splitLine[3],splitLine[4]);
+					LinkedList<Item> readItems = itemFileHandler.readLines();
+					for (Item item : readItems){
+						System.out.println(item.getItemDetails());
 					}
 					break;
 				default:
@@ -105,11 +105,11 @@ public class store {
 		return choice;
 	}
 
-	private static String generateItemID(LinkedList<String[]> lines){
+	private static String generateItemID(LinkedList<Item> items){
 		int largestID = Integer.MIN_VALUE;
 		int currentID = 0;
-		for (String[] line : lines){
-			currentID = Integer.parseInt(line[0]);
+		for (Item item : items){
+			currentID = item.getID();
 			if (currentID>largestID)largestID=currentID;
 		}
 		if(currentID<99999) currentID++;
