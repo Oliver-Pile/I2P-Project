@@ -55,6 +55,7 @@ public class store {
 					break;
 				case 2:
 					System.out.println("Item quantity updated");
+					update();
 					break;
 				case 3:
 					System.out.println("Item Removed");
@@ -129,5 +130,15 @@ public class store {
 			if(item.getID() == selection)return item;
 		}
 		return null;
+	}
+
+	private static void update(){
+		Item itemToUpdate = search();
+		System.out.printf("This is the current item details%n, %s.%nPlease enter the updated quantity",itemToUpdate.getItemDetails(false));
+		int newQuantity = userInputScanner.nextInt();
+		userInputScanner.nextLine();
+		itemToUpdate.changeQuantity(newQuantity);
+		itemFileHandler.update(itemToUpdate);
+
 	}
 }

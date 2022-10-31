@@ -54,4 +54,8 @@ public class Item {
         return newID;
     }
 
+    public void changeQuantity(int newQuantity){
+        this.quantity = newQuantity;
+        this.totalPrice = newQuantity*this.price;
+    }
 }
