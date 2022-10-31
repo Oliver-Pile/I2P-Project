@@ -68,4 +68,21 @@ public class ItemFileHandler {
         }
 
     }
+    public void remove(Item itemToRemove){
+        File tempFile = new File("src/tempItem.txt");
+        LinkedList<Item> allItems = readLines();
+        try {
+            FileWriter fw = new FileWriter(tempFile);
+            for(Item item : allItems){
+                if (item.getID() != itemToRemove.getID()) {
+                    fw.write(item.getFileString());
+                }
+            }
+            fw.close();
+            itemFile.delete();
+            tempFile.renameTo(itemFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
