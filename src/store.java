@@ -130,4 +130,14 @@ public class store {
 		}
 		return null;
 	}
+
+	private static void update(){
+		Item itemToUpdate = search();
+		System.out.printf("This is the current item details%n, %s.%nPlease enter the updated quantity",itemToUpdate.getItemDetails(false));
+		int newQuantity = userInputScanner.nextInt();
+		userInputScanner.nextLine();
+		itemToUpdate.changeQuantity(newQuantity);
+		itemFileHandler.update(itemToUpdate);
+
+	}
 }
