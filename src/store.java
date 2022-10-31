@@ -63,11 +63,8 @@ public class store {
 					System.out.println("Report printed");
 					break;
 				case 5:
-					System.out.println("Item File");
-					LinkedList<Item> readItems = itemFileHandler.readLines();
-					for (Item item : readItems){
-						System.out.println(item.getItemDetails());
-					}
+					System.out.println("Searching for an item");
+					System.out.println(search().getItemDetails(false));
 					break;
 				default:
 					System.out.println("Incorrect input, please try again");
@@ -118,5 +115,19 @@ public class store {
 			if(result) System.out.println("New item successfully added");
 			else System.out.println("Item not added, please try again");
 		}
+	}
+
+	private static Item search(){
+		LinkedList<Item> readItems = itemFileHandler.readLines();
+		System.out.println("Please enter the item ID of the item you wish to select");
+		for (Item item : readItems){
+			System.out.println(item.getItemDetails(true));
+		}
+		int selection = userInputScanner.nextInt();
+		userInputScanner.nextLine();
+		for (Item item : readItems){
+			if(item.getID() == selection)return item;
+		}
+		return null;
 	}
 }
