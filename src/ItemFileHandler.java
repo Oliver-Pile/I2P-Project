@@ -60,6 +60,7 @@ public class ItemFileHandler {
                     fw.write(item.getFileString());
                 }
             }
+            fw.close();
             itemFile.delete();
             tempFile.renameTo(itemFile);
         } catch (IOException e) {

@@ -55,6 +55,7 @@ public class store {
 					break;
 				case 2:
 					System.out.println("Item quantity updated");
+					update();
 					break;
 				case 3:
 					System.out.println("Item Removed");
