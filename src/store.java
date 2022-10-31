@@ -51,16 +51,7 @@ public class store {
 			 if(userInput==6)break;
 			switch (userInput) {
 				case 1:
-					LinkedList<String[]> lines = itemFileHandler.readLines();
-					String itemID = generateItemID(lines);
-					if (itemID==null) System.out.println("Out of IDs");
-					else{
-						String[] newItem = getNewItemDetails();
-						String newItemString = String.format("%s,%s,%s,%s,%s%n",itemID,newItem[0],newItem[1],newItem[2],newItem[3]);
-						boolean result = itemFileHandler.add(newItemString);
-						if(result) System.out.println("New item successfully added");
-						else System.out.println("Item not added, please try again");
-					}
+					add();
 					break;
 				case 2:
 					System.out.println("Item quantity updated");
@@ -73,9 +64,9 @@ public class store {
 					break;
 				case 5:
 					System.out.println("Item File");
-					LinkedList<String[]> readLines = itemFileHandler.readLines();
-					for (String[] splitLine : readLines){
-						System.out.printf("ID: %s, Description: %s, Unit Price: %s, Quantity in Stock: %s, Total price: %s%n",splitLine[0],splitLine[1],splitLine[2],splitLine[3],splitLine[4]);
+					LinkedList<Item> readItems = itemFileHandler.readLines();
+					for (Item item : readItems){
+						System.out.println(item.getItemDetails());
 					}
 					break;
 				default:
@@ -105,31 +96,27 @@ public class store {
 		return choice;
 	}
 
-	private static String generateItemID(LinkedList<String[]> lines){
-		int largestID = Integer.MIN_VALUE;
-		int currentID = 0;
-		for (String[] line : lines){
-			currentID = Integer.parseInt(line[0]);
-			if (currentID>largestID)largestID=currentID;
-		}
-		if(currentID<99999) currentID++;
-		else return null;
-		String newID = String.format("%05d",currentID);
-		return newID;
+	private static Item createNewItem(String itemID){
+		System.out.println("*** Entering new Item section ***");
+		System.out.println("Please enter item description");
+		String desc = userInputScanner.nextLine();
+		System.out.println("Please enter unit price");
+		double price = userInputScanner.nextDouble();
+		userInputScanner.nextLine();
+		System.out.println("Please enter total quantity in stock");
+		int quantity = userInputScanner.nextInt();
+		userInputScanner.nextLine();
+		return new Item(itemID,desc,price,quantity);
 	}
 
-	private static String[] getNewItemDetails(){
-		System.out.println("Entering new Item section");
-		String[] itemDetails = new String[4];
-		System.out.println("Please enter item description");
-		itemDetails[0] = userInputScanner.nextLine();
-		System.out.println("Please enter unit price");
-		double x = userInputScanner.nextDouble();
-		userInputScanner.nextLine();
-		itemDetails[1] = String.format("%.2f",x);
-		System.out.println("Please enter total quantity in stock");
-		itemDetails[2] = userInputScanner.nextLine();
-		itemDetails[3] = String.format("%.2f",Double.parseDouble(itemDetails[1])*Double.parseDouble(itemDetails[2]));
-		return itemDetails;
+	private static void add(){
+		String itemID = Item.generateItemID();
+		if (itemID==null) System.out.println("Out of IDs");
+		else{
+			Item newItem = createNewItem(itemID);
+			boolean result = itemFileHandler.add(newItem);
+			if(result) System.out.println("New item successfully added");
+			else System.out.println("Item not added, please try again");
+		}
 	}
 }

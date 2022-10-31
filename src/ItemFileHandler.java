@@ -8,17 +8,16 @@ public class ItemFileHandler {
     private final File itemFile = new File("src/items.txt");
 
 
-    public LinkedList<String[]> readLines() {
+    public LinkedList<Item> readLines() {
         try {
-            LinkedList<String[]> lines = new LinkedList<>();
+            LinkedList<Item> items = new LinkedList<>();
             Scanner reader = new Scanner(itemFile);
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
-                String[] splitLine = line.split(",");
-                lines.add(splitLine);
+                items.add(new Item(line));
             }
             reader.close();
-            return lines;
+            return items;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -27,10 +26,10 @@ public class ItemFileHandler {
 
     }
 
-    public boolean add(String toAppend){
+    public boolean add(Item item){
         try {
             FileWriter fw = new FileWriter(itemFile,true);
-            fw.write(toAppend);
+            fw.write(item.getFileString());
             fw.close();
             return true;
         } catch (IOException e) {
