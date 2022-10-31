@@ -38,7 +38,7 @@ public class ItemFileHandler {
         }
     }
 
-    public void update(){
+    public void update(Item itemToUpdate){
         /*
         Param: New item object with updated params
         Get current lines
@@ -48,5 +48,23 @@ public class ItemFileHandler {
             If yes, write new item object (from params) into new file
         Once all lines complete, rename temp file to items.txt to complete.
          */
+        File tempFile = new File("src/tempItem.txt");
+        LinkedList<Item> allItems = readLines();
+        try {
+            FileWriter fw = new FileWriter(tempFile);
+            for(Item item : allItems){
+                if (item.getID() == itemToUpdate.getID()) {
+                    fw.write(itemToUpdate.getFileString());
+                }
+                else{
+                    fw.write(item.getFileString());
+                }
+            }
+            itemFile.delete();
+            tempFile.renameTo(itemFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
