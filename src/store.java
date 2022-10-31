@@ -37,6 +37,7 @@ package src;
 
 import java.io.*;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -54,11 +55,10 @@ public class store {
 					add();
 					break;
 				case 2:
-					System.out.println("Item quantity updated");
 					update();
 					break;
 				case 3:
-					System.out.println("Item Removed");
+					remove();
 					break;
 				case 4:
 					System.out.println("Report printed");
@@ -134,11 +134,23 @@ public class store {
 
 	private static void update(){
 		Item itemToUpdate = search();
-		System.out.printf("This is the current item details%n, %s.%nPlease enter the updated quantity",itemToUpdate.getItemDetails(false));
+		System.out.printf("This is the current item details,%n %s.%nPlease enter the updated quantity",itemToUpdate.getItemDetails(false));
 		int newQuantity = userInputScanner.nextInt();
 		userInputScanner.nextLine();
 		itemToUpdate.changeQuantity(newQuantity);
 		itemFileHandler.update(itemToUpdate);
 
+	}
+
+	private static void remove(){
+		Item itemToRemove = search();
+		System.out.printf("This is the current item details,%n %s.%nPlease confirm you with to delete (y/n)",itemToRemove.getItemDetails(false));
+		char confirm = userInputScanner.nextLine().toLowerCase().charAt(0);
+		if(confirm == 'y'){
+			itemFileHandler.remove(itemToRemove);
+		}
+		else {
+			System.out.println("Aborting delete");
+		}
 	}
 }
