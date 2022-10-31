@@ -51,14 +51,7 @@ public class store {
 			 if(userInput==6)break;
 			switch (userInput) {
 				case 1:
-					String itemID = Item.generateItemID();
-					if (itemID==null) System.out.println("Out of IDs");
-					else{
-						Item newItem = createNewItem(itemID);
-						boolean result = itemFileHandler.add(newItem);
-						if(result) System.out.println("New item successfully added");
-						else System.out.println("Item not added, please try again");
-					}
+					add();
 					break;
 				case 2:
 					System.out.println("Item quantity updated");
@@ -103,7 +96,6 @@ public class store {
 		return choice;
 	}
 
-
 	private static Item createNewItem(String itemID){
 		System.out.println("*** Entering new Item section ***");
 		System.out.println("Please enter item description");
@@ -115,5 +107,16 @@ public class store {
 		int quantity = userInputScanner.nextInt();
 		userInputScanner.nextLine();
 		return new Item(itemID,desc,price,quantity);
+	}
+
+	private static void add(){
+		String itemID = Item.generateItemID();
+		if (itemID==null) System.out.println("Out of IDs");
+		else{
+			Item newItem = createNewItem(itemID);
+			boolean result = itemFileHandler.add(newItem);
+			if(result) System.out.println("New item successfully added");
+			else System.out.println("Item not added, please try again");
+		}
 	}
 }
