@@ -51,8 +51,7 @@ public class store {
 			 if(userInput==6)break;
 			switch (userInput) {
 				case 1:
-					LinkedList<Item> items = itemFileHandler.readLines();
-					String itemID = generateItemID(items);
+					String itemID = Item.generateItemID();
 					if (itemID==null) System.out.println("Out of IDs");
 					else{
 						Item newItem = createNewItem(itemID);
@@ -104,18 +103,6 @@ public class store {
 		return choice;
 	}
 
-	private static String generateItemID(LinkedList<Item> items){
-		int largestID = Integer.MIN_VALUE;
-		int currentID = 0;
-		for (Item item : items){
-			currentID = item.getID();
-			if (currentID>largestID)largestID=currentID;
-		}
-		if(currentID<99999) currentID++;
-		else return null;
-		String newID = String.format("%05d",currentID);
-		return newID;
-	}
 
 	private static Item createNewItem(String itemID){
 		System.out.println("*** Entering new Item section ***");
