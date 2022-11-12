@@ -44,6 +44,7 @@ import java.util.Scanner;
 public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
 	private static ItemFileHandler itemFileHandler = new ItemFileHandler();
+	private static TransactionFileHandler transactionFileHandler = new TransactionFileHandler();
 
 	public static void main(String args[]) {
 		int userInput = 0;
@@ -113,7 +114,12 @@ public class store {
 		else{
 			Item newItem = createNewItem(itemID);
 			boolean result = itemFileHandler.add(newItem);
-			if(result) System.out.println("New item successfully added");
+			if(result){
+				String fileString = transactionFileHandler.getFileString(newItem.getID(), newItem.getDesc(), -1*newItem.getQuantity(),-1*newItem.getTotalPrice(), newItem.getQuantity(), "Add");
+				transactionFileHandler.add(fileString);
+				System.out.println("New item successfully added");
+
+			}
 			else System.out.println("Item not added, please try again");
 		}
 	}
@@ -134,11 +140,16 @@ public class store {
 
 	private static void update(){
 		Item itemToUpdate = search();
+		int oldQuantity = itemToUpdate.getQuantity();
 		System.out.printf("This is the current item details,%n %s.%nPlease enter the updated quantity",itemToUpdate.getItemDetails(false));
 		int newQuantity = userInputScanner.nextInt();
 		userInputScanner.nextLine();
 		itemToUpdate.changeQuantity(newQuantity);
+		int quantityChange = oldQuantity-newQuantity;
 		itemFileHandler.update(itemToUpdate);
+		double amount = quantityChange* itemToUpdate.getPrice();
+		String fileString = transactionFileHandler.getFileString(itemToUpdate.getID(), itemToUpdate.getDesc(),quantityChange,amount, itemToUpdate.getQuantity(), "Update");
+		transactionFileHandler.add(fileString);
 
 	}
 
@@ -148,6 +159,8 @@ public class store {
 		char confirm = userInputScanner.nextLine().toLowerCase().charAt(0);
 		if(confirm == 'y'){
 			itemFileHandler.remove(itemToRemove);
+			String fileString = transactionFileHandler.getFileString(itemToRemove.getID(), itemToRemove.getDesc(), itemToRemove.getQuantity(),itemToRemove.getTotalPrice(), 0, "Remove");
+			transactionFileHandler.add(fileString);
 		}
 		else {
 			System.out.println("Aborting delete");
