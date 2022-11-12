@@ -1,3 +1,6 @@
 id,description,qtySold,amount,stockRemaining,transactionType
 00002,bb,12,276000.0,33
 00010,skdflkjsdlfs,3,60.0,7
+00009,banana,-100,-500.00,100,Add
+00007,item7,5,15000.00,10,Update
+00008,item8,100,250000.00,0,Remove
