@@ -39,6 +39,7 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 
 public class store {
@@ -46,7 +47,7 @@ public class store {
 	private static ItemFileHandler itemFileHandler = new ItemFileHandler();
 	private static TransactionFileHandler transactionFileHandler = new TransactionFileHandler();
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws InterruptedException {
 		int userInput = 0;
 		while (userInput != 6) {
 			 userInput = getMenuChoice();
@@ -71,6 +72,7 @@ public class store {
 				default:
 					System.out.println("Incorrect input, please try again");
 			}
+			TimeUnit.SECONDS.sleep(2);
 		}
 
 
