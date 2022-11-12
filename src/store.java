@@ -62,7 +62,7 @@ public class store {
 					remove();
 					break;
 				case 4:
-					System.out.println("Report printed");
+					outputTransactionReport();
 					break;
 				case 5:
 					System.out.println("Searching for an item");
@@ -164,6 +164,15 @@ public class store {
 		}
 		else {
 			System.out.println("Aborting delete");
+		}
+	}
+
+	private static void outputTransactionReport(){
+		LinkedList<String> lines = transactionFileHandler.readLines();
+		System.out.println("Transaction report (Negative means additions to stock)");
+		for(String line : lines){
+			String[] splitLine = line.split(",");
+			System.out.printf("Item ID: %s, Description: %s, Quantity Sold: %s, Amount: %s, Stock Remaining: %s, Transaction Type: %s%n",splitLine[0],splitLine[1],splitLine[2],splitLine[3],splitLine[4],splitLine[5]);
 		}
 	}
 }
