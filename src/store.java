@@ -39,13 +39,15 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 
 public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
 	private static ItemFileHandler itemFileHandler = new ItemFileHandler();
+	private static TransactionFileHandler transactionFileHandler = new TransactionFileHandler();
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws InterruptedException {
 		int userInput = 0;
 		while (userInput != 6) {
 			 userInput = getMenuChoice();
@@ -61,7 +63,7 @@ public class store {
 					remove();
 					break;
 				case 4:
-					System.out.println("Report printed");
+					outputTransactionReport();
 					break;
 				case 5:
 					System.out.println("Searching for an item");
@@ -70,6 +72,7 @@ public class store {
 				default:
 					System.out.println("Incorrect input, please try again");
 			}
+			TimeUnit.SECONDS.sleep(2);
 		}
 
 
@@ -113,7 +116,12 @@ public class store {
 		else{
 			Item newItem = createNewItem(itemID);
 			boolean result = itemFileHandler.add(newItem);
-			if(result) System.out.println("New item successfully added");
+			if(result){
+				String fileString = transactionFileHandler.getFileString(newItem.getID(), newItem.getDesc(), -1*newItem.getQuantity(),-1*newItem.getTotalPrice(), newItem.getQuantity(), "Add");
+				transactionFileHandler.add(fileString);
+				System.out.println("New item successfully added");
+
+			}
 			else System.out.println("Item not added, please try again");
 		}
 	}
@@ -134,11 +142,16 @@ public class store {
 
 	private static void update(){
 		Item itemToUpdate = search();
+		int oldQuantity = itemToUpdate.getQuantity();
 		System.out.printf("This is the current item details,%n %s.%nPlease enter the updated quantity",itemToUpdate.getItemDetails(false));
 		int newQuantity = userInputScanner.nextInt();
 		userInputScanner.nextLine();
 		itemToUpdate.changeQuantity(newQuantity);
+		int quantityChange = oldQuantity-newQuantity;
 		itemFileHandler.update(itemToUpdate);
+		double amount = quantityChange* itemToUpdate.getPrice();
+		String fileString = transactionFileHandler.getFileString(itemToUpdate.getID(), itemToUpdate.getDesc(),quantityChange,amount, itemToUpdate.getQuantity(), "Update");
+		transactionFileHandler.add(fileString);
 
 	}
 
@@ -148,9 +161,20 @@ public class store {
 		char confirm = userInputScanner.nextLine().toLowerCase().charAt(0);
 		if(confirm == 'y'){
 			itemFileHandler.remove(itemToRemove);
+			String fileString = transactionFileHandler.getFileString(itemToRemove.getID(), itemToRemove.getDesc(), itemToRemove.getQuantity(),itemToRemove.getTotalPrice(), 0, "Remove");
+			transactionFileHandler.add(fileString);
 		}
 		else {
 			System.out.println("Aborting delete");
+		}
+	}
+
+	private static void outputTransactionReport(){
+		LinkedList<String> lines = transactionFileHandler.readLines();
+		System.out.println("Transaction report (Negative means additions to stock)");
+		for(String line : lines){
+			String[] splitLine = line.split(",");
+			System.out.printf("Item ID: %s, Description: %s, Quantity Sold: %s, Amount: %s, Stock Remaining: %s, Transaction Type: %s%n",splitLine[0],splitLine[1],splitLine[2],splitLine[3],splitLine[4],splitLine[5]);
 		}
 	}
 }

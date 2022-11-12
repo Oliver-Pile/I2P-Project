@@ -58,4 +58,16 @@ public class Item {
         this.quantity = newQuantity;
         this.totalPrice = newQuantity*this.price;
     }
+    public String getDesc(){
+        return this.desc;
+    }
+    public double getTotalPrice(){
+        return this.totalPrice;
+    }
+    public double getPrice() {
+        return this.price;
+    }
+    public int getQuantity(){
+        return this.quantity;
+    }
 }
