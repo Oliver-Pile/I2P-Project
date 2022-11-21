@@ -1,6 +1,1 @@
-00009,banana,-100,-500.00,100,Add
-00007,item7,5,15000.00,10,Update
-00008,item8,100,250000.00,0,Remove
-00010,Pineapple,-100,-1000.00,100,Add
-00010,Pineapple,50,500.00,50,Update
-00009,banana,100,500.00,0,Remove
+00012,chicken,-96,-480.00,96,Add

@@ -8,9 +8,15 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class TransactionFileHandler {
-    private final File transactionFile = new File("src/transactions.txt");
+    private final File transactionFile= new File("src/transactions.txt");
 
-
+    public TransactionFileHandler(){
+        try {
+            new FileWriter(transactionFile, false).close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void add(String detailsToWrite){
         try {
             FileWriter fw = new FileWriter(transactionFile,true);
