@@ -1,1 +1,2 @@
-00012,chicken,-96,-480.00,96,Add
+00009,pineapple,-50,-150.00,50,Add
+00004,id checking,3,120.00,0,Remove
