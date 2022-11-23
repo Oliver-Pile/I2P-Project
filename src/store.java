@@ -43,7 +43,6 @@ import java.util.concurrent.TimeUnit;
 
 public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
-	private static TransactionFileHandler transactionFileHandler = new TransactionFileHandler();
 	private static database db;
 
 	public static void main(String args[]) throws InterruptedException, SQLException {
@@ -147,8 +146,6 @@ public class store {
 		char confirm = userInputScanner.nextLine().toLowerCase().charAt(0);
 		if(confirm == 'y'){
 			db.delete(itemToRemove);
-//			String fileString = transactionFileHandler.getFileString(itemToRemove.getID(), itemToRemove.getDesc(), itemToRemove.getQuantity(),itemToRemove.getTotalPrice(), 0, "Remove");
-//			transactionFileHandler.add(fileString);
 		}
 		else {
 			System.out.println("Aborting delete");
