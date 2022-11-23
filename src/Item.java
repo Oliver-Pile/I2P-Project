@@ -34,9 +34,6 @@ public class Item {
     public int getID() {
         return this.ID;
     }
-    public String getSQLAddString(){
-        return String.format("INSERT INTO Items (desc, price, quantity, totalPrice) values('%s', %.2f, %d, %.2f)",this.desc,this.price,this.quantity,this.totalPrice);
-    }
 
     public void changeQuantity(int newQuantity){
         this.quantity = newQuantity;

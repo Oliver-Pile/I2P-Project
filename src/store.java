@@ -112,10 +112,7 @@ public class store {
 
 	private static void add() throws SQLException {
 			Item newItem = createNewItem();
-			int newID = db.add(newItem.getSQLAddString());
-			newItem.setID(newID);
-			String fileString = transactionFileHandler.getFileString(newItem.getID(), newItem.getDesc(), -1*newItem.getQuantity(),-1*newItem.getTotalPrice(), newItem.getQuantity(), "Add");
-			transactionFileHandler.add(fileString);
+			db.add(newItem);
 			System.out.println("New item successfully added");
 	}
 
@@ -141,10 +138,7 @@ public class store {
 		userInputScanner.nextLine();
 		itemToUpdate.changeQuantity(newQuantity);
 		int quantityChange = oldQuantity-newQuantity;
-		db.update(itemToUpdate);
-		double amount = quantityChange* itemToUpdate.getPrice();
-		String fileString = transactionFileHandler.getFileString(itemToUpdate.getID(), itemToUpdate.getDesc(),quantityChange,amount, itemToUpdate.getQuantity(), "Update");
-		transactionFileHandler.add(fileString);
+		db.update(itemToUpdate,quantityChange);
 	}
 
 	private static void remove() throws SQLException {
@@ -153,15 +147,15 @@ public class store {
 		char confirm = userInputScanner.nextLine().toLowerCase().charAt(0);
 		if(confirm == 'y'){
 			db.delete(itemToRemove);
-			String fileString = transactionFileHandler.getFileString(itemToRemove.getID(), itemToRemove.getDesc(), itemToRemove.getQuantity(),itemToRemove.getTotalPrice(), 0, "Remove");
-			transactionFileHandler.add(fileString);
+//			String fileString = transactionFileHandler.getFileString(itemToRemove.getID(), itemToRemove.getDesc(), itemToRemove.getQuantity(),itemToRemove.getTotalPrice(), 0, "Remove");
+//			transactionFileHandler.add(fileString);
 		}
 		else {
 			System.out.println("Aborting delete");
 		}
 	}
-	private static void outputTransactionReport(){
-		LinkedList<String> lines = transactionFileHandler.readLines();
+	private static void outputTransactionReport() throws SQLException {
+		LinkedList<String> lines = db.getTransaction();
 		System.out.println("Transaction report (Negative means additions to stock)");
 		for(String line : lines){
 			String[] splitLine = line.split(",");
