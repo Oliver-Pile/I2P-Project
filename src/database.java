@@ -17,6 +17,7 @@ public class database {
     private void createTable() throws SQLException {
         String toEx = "CREATE TABLE IF NOT EXISTS Items (itemID INTEGER PRIMARY KEY AUTOINCREMENT, desc TEXT NOT NULL, price REAL NOT NULL, quantity INTEGER NOT NULL, totalPrice REAL NOT NULL)";
         st.execute(toEx);
+        st.execute("CREATE TABLE IF NOT EXISTS Transactions (itemID INTEGER NOT NULL, desc TEXT NOT NULL, changeQty INTEGER NOT NULL, amount REAL NOT NULL, stockRemaining INTEGER NOT NULL, transactionType TEXT NOT NULL)");
     }
     public int add(String toInsert) throws SQLException {
         st.execute(toInsert);
