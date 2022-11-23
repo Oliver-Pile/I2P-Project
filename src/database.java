@@ -53,7 +53,7 @@ public class database {
         LinkedList<String> transactions = new LinkedList<>();
         ResultSet allTransactions = st.executeQuery("SELECT * FROM Transactions");
         while(allTransactions.next()){
-            transactions.add(String.format("%d,%s,%d,%.2f,%d,%s",allTransactions.getInt("itemID"),allTransactions.getString("desc"),allTransactions.getInt("changeQty"),allTransactions.getDouble("amount"),allTransactions.getInt("stockRemaining"),allTransactions.getString("transactionType")));
+            transactions.add(String.format("%05d,%s,%d,%.2f,%d,%s",allTransactions.getInt("itemID"),allTransactions.getString("desc"),allTransactions.getInt("changeQty"),allTransactions.getDouble("amount"),allTransactions.getInt("stockRemaining"),allTransactions.getString("transactionType")));
         }
         return transactions;
     }

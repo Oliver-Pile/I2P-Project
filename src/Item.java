@@ -26,8 +26,8 @@ public class Item {
     }
 
     public String getItemDetails(boolean basic){
-        if (basic) return String.format("ID: %s, Description: %s",this.ID,this.desc);
-        else return String.format("ID: %s, Description: %s, Unit Price: %s, Quantity in Stock: %s, Total price: %s",
+        if (basic) return String.format("ID: %05d, Description: %s",this.ID,this.desc);
+        else return String.format("ID: %05d, Description: %s, Unit Price: %s, Quantity in Stock: %s, Total price: %s",
                     this.ID,this.desc,this.price,this.quantity,this.totalPrice);
 
     }
@@ -50,8 +50,5 @@ public class Item {
     }
     public int getQuantity(){
         return this.quantity;
-    }
-    public void setID(int id){
-        this.ID = id;
     }
 }
