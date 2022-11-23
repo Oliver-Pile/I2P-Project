@@ -35,52 +35,53 @@ package src;
  */
 
 
-import java.io.*;
+import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 
 public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
-	private static ItemFileHandler itemFileHandler = new ItemFileHandler();
-	private static TransactionFileHandler transactionFileHandler = new TransactionFileHandler();
+	private static database db;
 
 	public static void main(String args[]) throws InterruptedException {
-		int userInput = 0;
-		while (userInput != 6) {
-			 userInput = getMenuChoice();
-			 if(userInput==6)break;
-			switch (userInput) {
-				case 1:
-					add();
-					break;
-				case 2:
-					update();
-					break;
-				case 3:
-					remove();
-					break;
-				case 4:
-					outputTransactionReport();
-					break;
-				case 5:
-					System.out.println("Searching for an item");
-					System.out.println(search().getItemDetails(false));
-					break;
-				default:
-					System.out.println("Incorrect input, please try again");
+		try {
+			db = new database();
+			int userInput = 0;
+			while (userInput != 6) {
+				userInput = getMenuChoice();
+				if (userInput == 6) break;
+				switch (userInput) {
+					case 1:
+						add();
+						break;
+					case 2:
+						update();
+						break;
+					case 3:
+						remove();
+						break;
+					case 4:
+						outputTransactionReport();
+						break;
+					case 5:
+						System.out.println("Searching for an item");
+						System.out.println(search().getItemDetails(false));
+						break;
+					default:
+						System.out.println("Incorrect input, please try again");
+				}
+				TimeUnit.SECONDS.sleep(2);
 			}
-			TimeUnit.SECONDS.sleep(2);
+			db.close();
+			System.out.println("\n\n Thanks for using this program...!");
+		}catch (SQLException e){
+			System.out.println("Error with database. Please review and try again");
 		}
-
-
-		System.out.println("\n\n Thanks for using this program...!");
 	}
 	private static int getMenuChoice(){
-		//Validate its Int?
-
 		System.out.println("\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
@@ -90,14 +91,17 @@ public class store {
 		System.out.println("5. Output items file");
 		System.out.println("---------------------------------");
 		System.out.println("6. Exit");
-		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
-		int choice = userInputScanner.nextInt();
-		userInputScanner.nextLine();
-
-		return choice;
+		System.out.print("\n Enter a choice and Press ENTER to continue[1-6]:");
+		try {
+			int choice = userInputScanner.nextInt();
+			userInputScanner.nextLine();
+			return choice;
+		}catch (InputMismatchException e){
+			return -1;
+		}
 	}
 
-	private static Item createNewItem(String itemID){
+	private static Item createNewItem(){
 		System.out.println("*** Entering new Item section ***");
 		System.out.println("Please enter item description");
 		String desc = userInputScanner.nextLine();
@@ -107,27 +111,17 @@ public class store {
 		System.out.println("Please enter total quantity in stock");
 		int quantity = userInputScanner.nextInt();
 		userInputScanner.nextLine();
-		return new Item(itemID,desc,price,quantity);
+		return new Item(desc,price,quantity);
 	}
 
-	private static void add(){
-		String itemID = Item.generateItemID();
-		if (itemID==null) System.out.println("Out of IDs");
-		else{
-			Item newItem = createNewItem(itemID);
-			boolean result = itemFileHandler.add(newItem);
-			if(result){
-				String fileString = transactionFileHandler.getFileString(newItem.getID(), newItem.getDesc(), -1*newItem.getQuantity(),-1*newItem.getTotalPrice(), newItem.getQuantity(), "Add");
-				transactionFileHandler.add(fileString);
-				System.out.println("New item successfully added");
-
-			}
-			else System.out.println("Item not added, please try again");
-		}
+	private static void add() throws SQLException {
+			Item newItem = createNewItem();
+			db.add(newItem);
+			System.out.println("New item successfully added");
 	}
 
-	private static Item search(){
-		LinkedList<Item> readItems = itemFileHandler.readLines();
+	private static Item search() throws SQLException {
+		LinkedList<Item> readItems = db.getItems();
 		System.out.println("Please enter the item ID of the item you wish to select");
 		for (Item item : readItems){
 			System.out.println(item.getItemDetails(true));
@@ -140,7 +134,7 @@ public class store {
 		return null;
 	}
 
-	private static void update(){
+	private static void update() throws SQLException {
 		Item itemToUpdate = search();
 		int oldQuantity = itemToUpdate.getQuantity();
 		System.out.printf("This is the current item details,%n %s.%nPlease enter the updated quantity",itemToUpdate.getItemDetails(false));
@@ -148,29 +142,22 @@ public class store {
 		userInputScanner.nextLine();
 		itemToUpdate.changeQuantity(newQuantity);
 		int quantityChange = oldQuantity-newQuantity;
-		itemFileHandler.update(itemToUpdate);
-		double amount = quantityChange* itemToUpdate.getPrice();
-		String fileString = transactionFileHandler.getFileString(itemToUpdate.getID(), itemToUpdate.getDesc(),quantityChange,amount, itemToUpdate.getQuantity(), "Update");
-		transactionFileHandler.add(fileString);
-
+		db.update(itemToUpdate,quantityChange);
 	}
 
-	private static void remove(){
+	private static void remove() throws SQLException {
 		Item itemToRemove = search();
 		System.out.printf("This is the current item details,%n %s.%nPlease confirm you with to delete (y/n)",itemToRemove.getItemDetails(false));
 		char confirm = userInputScanner.nextLine().toLowerCase().charAt(0);
 		if(confirm == 'y'){
-			itemFileHandler.remove(itemToRemove);
-			String fileString = transactionFileHandler.getFileString(itemToRemove.getID(), itemToRemove.getDesc(), itemToRemove.getQuantity(),itemToRemove.getTotalPrice(), 0, "Remove");
-			transactionFileHandler.add(fileString);
+			db.delete(itemToRemove);
 		}
 		else {
 			System.out.println("Aborting delete");
 		}
 	}
-
-	private static void outputTransactionReport(){
-		LinkedList<String> lines = transactionFileHandler.readLines();
+	private static void outputTransactionReport() throws SQLException {
+		LinkedList<String> lines = db.getTransaction();
 		System.out.println("Transaction report (Negative means additions to stock)");
 		for(String line : lines){
 			String[] splitLine = line.split(",");
