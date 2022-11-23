@@ -28,8 +28,9 @@ public class database {
         String toUpdate = String.format("UPDATE Items SET quantity=%d WHERE itemID=%d",item.getQuantity(),item.getID());
         st.execute(toUpdate);
     }
-    public void delete(Item item){
+    public void delete(Item item) throws SQLException {
         String toDelete = String.format("DELETE from Items WHERE itemID=%d",item.getID());
+        st.execute(toDelete);
     }
 
     public LinkedList<Item> getItems() throws SQLException {

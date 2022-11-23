@@ -43,7 +43,6 @@ import java.util.concurrent.TimeUnit;
 
 public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
-	//private static ItemFileHandler itemFileHandler = new ItemFileHandler();
 	private static TransactionFileHandler transactionFileHandler = new TransactionFileHandler();
 	private static database db;
 
@@ -115,14 +114,12 @@ public class store {
 			Item newItem = createNewItem();
 			int newID = db.add(newItem.getSQLAddString());
 			newItem.setID(newID);
-			//Need way of getting ID back.
 			String fileString = transactionFileHandler.getFileString(newItem.getID(), newItem.getDesc(), -1*newItem.getQuantity(),-1*newItem.getTotalPrice(), newItem.getQuantity(), "Add");
 			transactionFileHandler.add(fileString);
 			System.out.println("New item successfully added");
 	}
 
 	private static Item search() throws SQLException {
-		//LinkedList<Item> readItems = itemFileHandler.readLines();
 		LinkedList<Item> readItems = db.getItems();
 		System.out.println("Please enter the item ID of the item you wish to select");
 		for (Item item : readItems){
@@ -145,7 +142,6 @@ public class store {
 		itemToUpdate.changeQuantity(newQuantity);
 		int quantityChange = oldQuantity-newQuantity;
 		db.update(itemToUpdate);
-		//itemFileHandler.update(itemToUpdate);
 		double amount = quantityChange* itemToUpdate.getPrice();
 		String fileString = transactionFileHandler.getFileString(itemToUpdate.getID(), itemToUpdate.getDesc(),quantityChange,amount, itemToUpdate.getQuantity(), "Update");
 		transactionFileHandler.add(fileString);
@@ -157,7 +153,6 @@ public class store {
 		char confirm = userInputScanner.nextLine().toLowerCase().charAt(0);
 		if(confirm == 'y'){
 			db.delete(itemToRemove);
-			//itemFileHandler.remove(itemToRemove);
 			String fileString = transactionFileHandler.getFileString(itemToRemove.getID(), itemToRemove.getDesc(), itemToRemove.getQuantity(),itemToRemove.getTotalPrice(), 0, "Remove");
 			transactionFileHandler.add(fileString);
 		}
@@ -165,7 +160,6 @@ public class store {
 			System.out.println("Aborting delete");
 		}
 	}
-
 	private static void outputTransactionReport(){
 		LinkedList<String> lines = transactionFileHandler.readLines();
 		System.out.println("Transaction report (Negative means additions to stock)");
