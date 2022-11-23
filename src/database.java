@@ -50,9 +50,9 @@ public class database {
         }
         return items;
     }
-    public LinkedList<String> getTransaction() throws SQLException {
+    public LinkedList<String> getTransaction(String date) throws SQLException {
         LinkedList<String> transactions = new LinkedList<>();
-        ResultSet allTransactions = st.executeQuery(String.format("SELECT * FROM Transactions WHERE date='%s'",LocalDate.now()));
+        ResultSet allTransactions = st.executeQuery(String.format("SELECT * FROM Transactions WHERE date='%s'",date));
         while(allTransactions.next()){
             transactions.add(String.format("%05d,%s,%d,%.2f,%d,%s",allTransactions.getInt("itemID"),allTransactions.getString("desc"),allTransactions.getInt("changeQty"),allTransactions.getDouble("amount"),allTransactions.getInt("stockRemaining"),allTransactions.getString("transactionType")));
         }
