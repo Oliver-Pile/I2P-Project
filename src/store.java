@@ -36,6 +36,7 @@ package src;
 
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -45,41 +46,42 @@ public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
 	private static database db;
 
-	public static void main(String args[]) throws InterruptedException, SQLException {
-		db = new database();
-		int userInput = 0;
-		while (userInput != 6) {
-			 userInput = getMenuChoice();
-			 if(userInput==6)break;
-			switch (userInput) {
-				case 1:
-					add();
-					break;
-				case 2:
-					update();
-					break;
-				case 3:
-					remove();
-					break;
-				case 4:
-					outputTransactionReport();
-					break;
-				case 5:
-					System.out.println("Searching for an item");
-					System.out.println(search().getItemDetails(false));
-					break;
-				default:
-					System.out.println("Incorrect input, please try again");
+	public static void main(String args[]) throws InterruptedException {
+		try {
+			db = new database();
+			int userInput = 0;
+			while (userInput != 6) {
+				userInput = getMenuChoice();
+				if (userInput == 6) break;
+				switch (userInput) {
+					case 1:
+						add();
+						break;
+					case 2:
+						update();
+						break;
+					case 3:
+						remove();
+						break;
+					case 4:
+						outputTransactionReport();
+						break;
+					case 5:
+						System.out.println("Searching for an item");
+						System.out.println(search().getItemDetails(false));
+						break;
+					default:
+						System.out.println("Incorrect input, please try again");
+				}
+				TimeUnit.SECONDS.sleep(2);
 			}
-			TimeUnit.SECONDS.sleep(2);
+			db.close();
+			System.out.println("\n\n Thanks for using this program...!");
+		}catch (SQLException e){
+			System.out.println("Error with database. Please review and try again");
 		}
-
-		db.close();
-		System.out.println("\n\n Thanks for using this program...!");
 	}
 	private static int getMenuChoice(){
-		//Validate its Int?
-
 		System.out.println("\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. ADD NEW ITEM");
@@ -89,11 +91,14 @@ public class store {
 		System.out.println("5. Output items file");
 		System.out.println("---------------------------------");
 		System.out.println("6. Exit");
-		System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
-		int choice = userInputScanner.nextInt();
-		userInputScanner.nextLine();
-
-		return choice;
+		System.out.print("\n Enter a choice and Press ENTER to continue[1-6]:");
+		try {
+			int choice = userInputScanner.nextInt();
+			userInputScanner.nextLine();
+			return choice;
+		}catch (InputMismatchException e){
+			return -1;
+		}
 	}
 
 	private static Item createNewItem(){
