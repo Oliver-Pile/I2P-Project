@@ -42,7 +42,11 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * store is the main class to be executed
+ *
+ * @author Oliver Pile
+ */
 public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
 	private static database db;
