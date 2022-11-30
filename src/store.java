@@ -51,6 +51,14 @@ public class store {
 	private static Scanner userInputScanner = new Scanner(System.in);
 	private static database db;
 
+	/**
+	 * The default main method. It creates a new database object and then loops through a user input panel.
+	 * The user will input a number and the program will branch from there.
+	 * The try/catch is used to detect any issues when interacting with the db and warn the user.
+	 * Has a sleep at the end to allow the user to see the output of their choice before the main selection window reappears.
+	 * @param args Default params
+	 * @throws InterruptedException From the TimeUnit.SECOND.Sleep().
+	 */
 	public static void main(String args[]) throws InterruptedException {
 		try {
 			db = new database();
@@ -86,6 +94,13 @@ public class store {
 			System.out.println("Error with database. Please review and try again");
 		}
 	}
+
+	/**
+	 * Outputs a set of options to the user via command line and waits for the user to input their response.
+	 * Uses Scanner {@link java.util.Scanner} to capture user input as integer.
+	 * Try/Catch detects if the user doesn't enter an integer, causing the program to return -1.
+	 * @return The value entered by the user, unless there is an error in which case it returns -1.
+	 */
 	private static int getMenuChoice(){
 		System.out.println("\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
