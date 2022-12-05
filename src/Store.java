@@ -97,7 +97,7 @@ public class Store {
 
 	/**
 	 * Outputs a set of options to the user via command line and waits for the user to input their response.
-	 * Uses Scanner {@link java.util.Scanner} to capture user input as integer.
+	 * Uses a scanner {@link java.util.Scanner} to capture user input as integer.
 	 * Try/Catch detects if the user doesn't enter an integer, causing the program to return -1.
 	 * @return The value entered by the user, unless there is an error in which case it returns -1.
 	 */
@@ -123,7 +123,7 @@ public class Store {
 
 	/**
 	 * Runs through a set of input requests to the user for determining the requirements for a new item.
-	 * @return An Item {@link Item} object with the attributes the user inputted
+	 * @return An {@link Item} object with the attributes the user inputted
 	 */
 	private static Item createNewItem(){
 		System.out.println("*** Entering new Item section ***");
@@ -139,8 +139,7 @@ public class Store {
 	}
 
 	/**
-	 * Gets the new item to be added and calls a DB function
-	 * {@link Database}
+	 * Gets the new item to be added and calls a {@link Database} function
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
 	private static void add() throws SQLException {
@@ -170,7 +169,7 @@ public class Store {
 
 	/**
 	 * Gets the item to be updated. Gets the user to input the new quantity requried. Updates the quantity on the item object itself.
-	 * Then makes a call to a DB function. {@link Database}
+	 * Then makes a call to a {@link Database} function.
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
 	private static void update() throws SQLException {
@@ -186,7 +185,7 @@ public class Store {
 
 	/**
 	 * Gets the item to be removed. Makes the user confirm that the item selected is correct.
-	 * Makes a call to a DB function {@link Database}
+	 * Makes a call to a {@link Database} function.
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
 	private static void remove() throws SQLException {
@@ -202,7 +201,8 @@ public class Store {
 	}
 
 	/**
-	 * Gets all the transaction entries from the DB. Outputs them in a readable format.
+	 * Gets the user to input a specific date to search for (Default is current date)
+	 * Calls {@link Database} function to get all transactions for specific date. Outputs them in a readable format.
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
 	private static void outputTransactionReport() throws SQLException {

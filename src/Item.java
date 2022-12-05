@@ -29,7 +29,7 @@ public class Item {
     }
 
     /**
-     * Constructor for creating an item based of call to DB.
+     * Constructor for creating an item based of call to {@link Database}.
      * Gets data from the DB columns in the RS.
      * @param rs ResultSet is items from DB query
      * @throws SQLException if there is an issue with the database call. This is handled by the store class.

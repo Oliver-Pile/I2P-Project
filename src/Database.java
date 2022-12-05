@@ -90,9 +90,11 @@ public class Database {
     }
 
     /**
-     * Gets all the records from the transaction table and store each as a string.
+     * Gets all the records from the transaction table on a specific date and store each as a string.
+     * @param date The date to search for records on
      * @return A list of each transaction
      * @throws SQLException if there was an issue connecting to the DB. Handled by the store class.
+     *
      */
     public LinkedList<String> getTransaction(String date) throws SQLException {
         LinkedList<String> transactions = new LinkedList<>();
