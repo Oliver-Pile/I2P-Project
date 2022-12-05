@@ -32,7 +32,7 @@ public class Item {
      * Constructor for creating an item based of call to DB.
      * Gets data from the DB columns in the RS.
      * @param rs ResultSet is items from DB query
-     * @throws SQLException if there is an issue with the database call. This is handled by main.
+     * @throws SQLException if there is an issue with the database call. This is handled by the store class.
      */
     public Item (ResultSet rs) throws SQLException {
         this.ID = rs.getInt("itemID");
