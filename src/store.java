@@ -121,6 +121,10 @@ public class store {
 		}
 	}
 
+	/**
+	 * Runs through a set of input requests to the user for determining the requirements for a new item.
+	 * @return An Item {@link Item} object with the attributes the user inputted
+	 */
 	private static Item createNewItem(){
 		System.out.println("*** Entering new Item section ***");
 		System.out.println("Please enter item description");
@@ -134,12 +138,22 @@ public class store {
 		return new Item(desc,price,quantity);
 	}
 
+	/**
+	 * Gets the new item to be added and calls a DB function
+	 * {@link database}
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void add() throws SQLException {
 			Item newItem = createNewItem();
 			db.add(newItem);
 			System.out.println("New item successfully added");
 	}
 
+	/**
+	 * Gets all the items currently in the DB and outputs them in basic detail. Gets the user to select the item they wish to see in more detail.
+	 * @return The item object that corresponds to the ID the user selected. Null if no item by that ID exists.
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static Item search() throws SQLException {
 		LinkedList<Item> readItems = db.getItems();
 		System.out.println("Please enter the item ID of the item you wish to select");
@@ -154,6 +168,11 @@ public class store {
 		return null;
 	}
 
+	/**
+	 * Gets the item to be updated. Gets the user to input the new quantity requried. Updates the quantity on the item object itself.
+	 * Then makes a call to a DB function. {@link database}
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void update() throws SQLException {
 		Item itemToUpdate = search();
 		int oldQuantity = itemToUpdate.getQuantity();
@@ -165,6 +184,11 @@ public class store {
 		db.update(itemToUpdate,quantityChange);
 	}
 
+	/**
+	 * Gets the item to be removed. Makes the user confirm that the item selected is correct.
+	 * Makes a call to a DB function {@link database}
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void remove() throws SQLException {
 		Item itemToRemove = search();
 		System.out.printf("This is the current item details,%n %s.%nPlease confirm you with to delete (y/n)",itemToRemove.getItemDetails(false));
@@ -176,6 +200,11 @@ public class store {
 			System.out.println("Aborting delete");
 		}
 	}
+
+	/**
+	 * Gets all the transaction entries from the DB. Outputs them in a readable format.
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void outputTransactionReport() throws SQLException {
 		System.out.println("Please enter the date you wish to view (or press enter for today). Use format YYYY-MM-DD");
 		String date = userInputScanner.nextLine();
