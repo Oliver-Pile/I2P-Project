@@ -42,14 +42,26 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-
-public class store {
+/**
+ * Store is the main class to be executed
+ *
+ * @author Oliver Pile
+ */
+public class Store {
 	private static Scanner userInputScanner = new Scanner(System.in);
-	private static database db;
+	private static Database db;
 
+	/**
+	 * The default main method. It creates a new database object and then loops through a user input panel.
+	 * The user will input a number and the program will branch from there.
+	 * The try/catch is used to detect any issues when interacting with the db and warn the user.
+	 * Has a sleep at the end to allow the user to see the output of their choice before the main selection window reappears.
+	 * @param args Default params
+	 * @throws InterruptedException From the TimeUnit.SECOND.Sleep().
+	 */
 	public static void main(String args[]) throws InterruptedException {
 		try {
-			db = new database();
+			db = new Database();
 			int userInput = 0;
 			while (userInput != 6) {
 				userInput = getMenuChoice();
@@ -82,6 +94,13 @@ public class store {
 			System.out.println("Error with database. Please review and try again");
 		}
 	}
+
+	/**
+	 * Outputs a set of options to the user via command line and waits for the user to input their response.
+	 * Uses a scanner {@link java.util.Scanner} to capture user input as integer.
+	 * Try/Catch detects if the user doesn't enter an integer, causing the program to return -1.
+	 * @return The value entered by the user, unless there is an error in which case it returns -1.
+	 */
 	private static int getMenuChoice(){
 		System.out.println("\n\nI N V E N T O R Y    M A N A G E M E N T    S Y S T E M");
 		System.out.println("-----------------------------------------------");
@@ -102,6 +121,10 @@ public class store {
 		}
 	}
 
+	/**
+	 * Runs through a set of input requests to the user for determining the requirements for a new item.
+	 * @return An {@link Item} object with the attributes the user inputted
+	 */
 	private static Item createNewItem(){
 		System.out.println("*** Entering new Item section ***");
 		System.out.println("Please enter item description");
@@ -115,12 +138,21 @@ public class store {
 		return new Item(desc,price,quantity);
 	}
 
+	/**
+	 * Gets the new item to be added and calls a {@link Database} function
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void add() throws SQLException {
 			Item newItem = createNewItem();
 			db.add(newItem);
 			System.out.println("New item successfully added");
 	}
 
+	/**
+	 * Gets all the items currently in the DB and outputs them in basic detail. Gets the user to select the item they wish to see in more detail.
+	 * @return The item object that corresponds to the ID the user selected. Null if no item by that ID exists.
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static Item search() throws SQLException {
 		LinkedList<Item> readItems = db.getItems();
 		System.out.println("Please enter the item ID of the item you wish to select");
@@ -135,6 +167,11 @@ public class store {
 		return null;
 	}
 
+	/**
+	 * Gets the item to be updated. Gets the user to input the new quantity requried. Updates the quantity on the item object itself.
+	 * Then makes a call to a {@link Database} function.
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void update() throws SQLException {
 		Item itemToUpdate = search();
 		int oldQuantity = itemToUpdate.getQuantity();
@@ -146,6 +183,11 @@ public class store {
 		db.update(itemToUpdate,quantityChange);
 	}
 
+	/**
+	 * Gets the item to be removed. Makes the user confirm that the item selected is correct.
+	 * Makes a call to a {@link Database} function.
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void remove() throws SQLException {
 		Item itemToRemove = search();
 		System.out.printf("This is the current item details,%n %s.%nPlease confirm you with to delete (y/n)",itemToRemove.getItemDetails(false));
@@ -157,6 +199,12 @@ public class store {
 			System.out.println("Aborting delete");
 		}
 	}
+
+	/**
+	 * Gets the user to input a specific date to search for (Default is current date)
+	 * Calls {@link Database} function to get all transactions for specific date. Outputs them in a readable format.
+	 * @throws SQLException if there is an issue with the database call. This is handled by main.
+	 */
 	private static void outputTransactionReport() throws SQLException {
 		System.out.println("Please enter the date you wish to view (or press enter for today). Use format YYYY-MM-DD");
 		String date = userInputScanner.nextLine();
