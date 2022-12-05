@@ -43,13 +43,13 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * store is the main class to be executed
+ * Store is the main class to be executed
  *
  * @author Oliver Pile
  */
-public class store {
+public class Store {
 	private static Scanner userInputScanner = new Scanner(System.in);
-	private static database db;
+	private static Database db;
 
 	/**
 	 * The default main method. It creates a new database object and then loops through a user input panel.
@@ -61,7 +61,7 @@ public class store {
 	 */
 	public static void main(String args[]) throws InterruptedException {
 		try {
-			db = new database();
+			db = new Database();
 			int userInput = 0;
 			while (userInput != 6) {
 				userInput = getMenuChoice();
@@ -140,7 +140,7 @@ public class store {
 
 	/**
 	 * Gets the new item to be added and calls a DB function
-	 * {@link database}
+	 * {@link Database}
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
 	private static void add() throws SQLException {
@@ -170,7 +170,7 @@ public class store {
 
 	/**
 	 * Gets the item to be updated. Gets the user to input the new quantity requried. Updates the quantity on the item object itself.
-	 * Then makes a call to a DB function. {@link database}
+	 * Then makes a call to a DB function. {@link Database}
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
 	private static void update() throws SQLException {
@@ -186,7 +186,7 @@ public class store {
 
 	/**
 	 * Gets the item to be removed. Makes the user confirm that the item selected is correct.
-	 * Makes a call to a DB function {@link database}
+	 * Makes a call to a DB function {@link Database}
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
 	private static void remove() throws SQLException {

@@ -3,11 +3,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-public class database {
+/**
+ * database is a class
+ */
+public class Database {
     static Connection con;
     static Statement st;
 
-    public database() throws SQLException {
+    public Database() throws SQLException {
         String url = "jdbc:sqlite:src/storeDB.db";
         con = DriverManager.getConnection(url);
         System.out.println("Connection established......");
