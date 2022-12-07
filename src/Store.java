@@ -168,7 +168,7 @@ public class Store {
 	}
 
 	/**
-	 * Gets the item to be updated. Gets the user to input the new quantity requried. Updates the quantity on the item object itself.
+	 * Gets the item to be updated. Gets the user to input the new quantity required. Updates the quantity on the item object itself.
 	 * Then makes a call to a {@link Database} function.
 	 * @throws SQLException if there is an issue with the database call. This is handled by main.
 	 */
