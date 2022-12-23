@@ -51,8 +51,7 @@ public class DatabaseTest {
     public void updateTest() throws SQLException {
         //Setting up DB so there is an item to update
         Database db = new Database(testDBName);
-        Item newItem = new Item(getRandomDesc(),10.99,100);
-        db.add(newItem);
+        db.add(new Item(getRandomDesc(),15.87,100));
         //Updating the item
         Item itemToUpdate = getLastDB(db);
         itemToUpdate.changeQuantity(20);
@@ -66,10 +65,10 @@ public class DatabaseTest {
 
     @Test
     public void deleteTest() throws SQLException {
-        //Setting up DB so there is an item to delete
+        //Setting up DB so there is an item to delete and another item to test on
         Database db = new Database(testDBName);
-        Item newItem = new Item(getRandomDesc(),10.99,100);
-        db.add(newItem);
+        db.add(new Item(getRandomDesc(),1.99,150));
+        db.add(new Item(getRandomDesc(),10.99,100));
         Item itemToDelete = getLastDB(db);
         db.delete(itemToDelete);
         Item lastItem = getLastDB(db);
