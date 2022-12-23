@@ -39,6 +39,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -61,7 +62,7 @@ public class Store {
 	 */
 	public static void main(String args[]) throws InterruptedException {
 		try {
-			db = new Database("storeDB");
+			db = new Database("src/storeDB");
 			int userInput = 0;
 			while (userInput != 6) {
 				userInput = getMenuChoice();
@@ -156,15 +157,19 @@ public class Store {
 	private static Item search() throws SQLException {
 		LinkedList<Item> readItems = db.getItems();
 		System.out.println("Please enter the item ID of the item you wish to select");
-		for (Item item : readItems){
-			System.out.println(item.getItemDetails(true));
+		while (true) {
+			for (Item item : readItems) {
+				System.out.println(item.getItemDetails(true));
+			}
+			int selection = userInputScanner.nextInt();
+			userInputScanner.nextLine();
+			for (Item item : readItems) {
+				if (item.getID() == selection) {
+					return item;
+				}
+			}
+			System.out.println("Invalid choice, please try again.");
 		}
-		int selection = userInputScanner.nextInt();
-		userInputScanner.nextLine();
-		for (Item item : readItems){
-			if(item.getID() == selection)return item;
-		}
-		return null;
 	}
 
 	/**

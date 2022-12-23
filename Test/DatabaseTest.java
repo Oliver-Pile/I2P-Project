@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class DatabaseTest {
 
-    private final String testDBName = "testDB";
+    private final String testDBName = "Test/testDB";
     private Item getLastDB(Database db) throws SQLException {
         LinkedList<Item> items = db.getItems();
         return items.getLast();
@@ -31,7 +31,7 @@ public class DatabaseTest {
     }
 
     private void deleteTestDB(){
-        File testDB = new File(String.format("src/%s.db",testDBName));
+        File testDB = new File(String.format("%s.db",testDBName));
         testDB.delete();
     }
 
