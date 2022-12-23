@@ -4,6 +4,7 @@ import org.junit.Test;
 import src.Item;
 import src.Database;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Random;
@@ -13,6 +14,7 @@ import static org.junit.Assert.*;
 
 public class DatabaseTest {
 
+    private final String testDBName = "testDB";
     private Item getLastDB(Database db) throws SQLException {
         LinkedList items = db.getItems();
         return (Item) items.getLast();
@@ -27,9 +29,14 @@ public class DatabaseTest {
         return randomStr;
     }
 
+    private void deleteTestDB(){
+        File testDB = new File(String.format("src/%s.db",testDBName));
+        testDB.delete();
+    }
+
     @Test
     public void addTest() throws SQLException {
-        Database db = new Database("testDB");
+        Database db = new Database(testDBName);
         Item newItem = new Item(getRandomDesc(),10.99,100);
         db.add(newItem);
         Item lastItem = getLastDB(db);
@@ -37,12 +44,13 @@ public class DatabaseTest {
         assertEquals(lastItem.getPrice(),newItem.getPrice(),0);
         assertEquals(lastItem.getQuantity(),newItem.getQuantity());
         db.close();
+        deleteTestDB();
     }
 
     @Test
     public void updateTest() throws SQLException {
         //Setting up DB so there is an item to update
-        Database db = new Database("testDB");
+        Database db = new Database(testDBName);
         Item newItem = new Item(getRandomDesc(),10.99,100);
         db.add(newItem);
         //Updating the item
@@ -53,17 +61,20 @@ public class DatabaseTest {
         assertEquals(itemToUpdate.getDesc(),updatedItem.getDesc());
         assertEquals(20,updatedItem.getQuantity());
         db.close();
+        deleteTestDB();
     }
 
     @Test
     public void deleteTest() throws SQLException {
         //Setting up DB so there is an item to delete
-        Database db = new Database("testDB");
+        Database db = new Database(testDBName);
         Item newItem = new Item(getRandomDesc(),10.99,100);
         db.add(newItem);
         Item itemToDelete = getLastDB(db);
         db.delete(itemToDelete);
         Item lastItem = getLastDB(db);
         assertNotEquals(itemToDelete.getDesc(),lastItem.getDesc());
+        db.close();
+        deleteTestDB();
     }
 }
