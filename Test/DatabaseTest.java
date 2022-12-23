@@ -31,5 +31,20 @@ public class DatabaseTest {
         assertEquals(lastItem.getDesc(),newItem.getDesc());
         assertEquals(lastItem.getPrice(),newItem.getPrice(),0);
         assertEquals(lastItem.getQuantity(),newItem.getQuantity());
+        db.close();
+    }
+
+    @Test
+    public void updateTest() throws SQLException {
+        Database db = new Database("testDB");
+        Item newItem = new Item("A unit test item for updating",10.99,100);
+        db.add(newItem);
+        Item itemToUpdate = getLastDB(db);
+        itemToUpdate.changeQuantity(20);
+        db.update(itemToUpdate,20);
+        Item updatedItem = getLastDB(db);
+        assertEquals(itemToUpdate.getDesc(),updatedItem.getDesc());
+        assertEquals(20,updatedItem.getQuantity());
+        db.close();
     }
 }
