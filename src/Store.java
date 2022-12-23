@@ -61,7 +61,7 @@ public class Store {
 	 */
 	public static void main(String args[]) throws InterruptedException {
 		try {
-			db = new Database();
+			db = new Database("storeDB");
 			int userInput = 0;
 			while (userInput != 6) {
 				userInput = getMenuChoice();
