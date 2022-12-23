@@ -6,6 +6,7 @@ import src.Database;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -90,6 +91,31 @@ public class DatabaseTest {
         LinkedList<Item> allItems = db.getItems();
         assertTrue(allItems.get(0).getDesc().equals(newItemA.getDesc()));
         assertTrue(allItems.get(1).getDesc().equals(newItemB.getDesc()));
+        db.close();
+        deleteTestDB();
+    }
+
+    @Test
+    public void getTransactionTest() throws SQLException {
+        //Generating some transaction records.
+        Database db = new Database(testDBName);
+        db.add(new Item(getRandomDesc(),16.99,150));
+        Item addItem = new Item(getRandomDesc(),11.99,100);
+        db.add(addItem);
+        Item itemToUpdate = getLastDB(db);
+        itemToUpdate.changeQuantity(50);
+        db.update(itemToUpdate,50);
+        Item itemToDelete = getLastDB(db);
+        db.delete(itemToDelete);
+        //Getting transaction report
+        LinkedList<String> trans = db.getTransaction(LocalDate.now().toString());
+        assertTrue(trans.get(1).contains(addItem.getDesc()));
+        assertTrue(trans.get(1).contains("Add"));
+        assertTrue(trans.get(2).contains(itemToUpdate.getDesc()));
+        assertTrue(trans.get(2).contains("50"));
+        assertTrue(trans.get(2).contains("Update"));
+        assertTrue(trans.get(3).contains(itemToDelete.getDesc()));
+        assertTrue(trans.get(3).contains("Remove"));
         db.close();
         deleteTestDB();
     }
