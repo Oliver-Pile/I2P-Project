@@ -16,8 +16,8 @@ public class Database {
      * Constructor that establishes a connection to the DB and ensures all tables have been created
      * @throws SQLException if there was an issue connecting to the DB. Handled by the store class.
      */
-    public Database() throws SQLException {
-        String url = "jdbc:sqlite:src/storeDB.db";
+    public Database(String name) throws SQLException {
+        String url = String.format("jdbc:sqlite:%s.db",name);
         con = DriverManager.getConnection(url);
         System.out.println("Connection established......");
         st = con.createStatement();
