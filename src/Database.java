@@ -9,8 +9,8 @@ import java.util.LinkedList;
  * @author Oliver Pile
  */
 public class Database {
-    static Connection con;
-    static Statement st;
+    private static Connection con;
+    private static Statement st;
 
     /**
      * Constructor that establishes a connection to the DB and ensures all tables have been created
