@@ -8,6 +8,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -62,6 +63,24 @@ public class DatabaseTest {
         assertEquals(20,updatedItem.getQuantity());
         db.close();
         deleteTestDB();
+    }
+
+    @Test
+    public void updateTestInvalid() throws SQLException {
+        // No setup for item to update
+        Database db = new Database(testDBName);
+        try{
+            Item itemToUpdate = getLastDB(db);
+            itemToUpdate.changeQuantity(20);
+            db.update(itemToUpdate, 20);
+            fail();
+        }catch (NoSuchElementException e){
+            assertTrue(true);
+        }finally {
+            db.close();
+            deleteTestDB();
+        }
+
     }
 
     @Test
