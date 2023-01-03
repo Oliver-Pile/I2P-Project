@@ -6,7 +6,7 @@ import java.util.LinkedList;
 /**
  * Database is a class for handling all interactions with the database.
  *
- * @author Oliver Pile
+ * @author s240260@uos.ac.uk
  */
 public class Database {
     private static Connection con;

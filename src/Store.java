@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Store is the main class to be executed
  *
- * @author Oliver Pile
+ * @author s240260@uos.ac.uk
  */
 public class Store {
 	private static Scanner userInputScanner = new Scanner(System.in);

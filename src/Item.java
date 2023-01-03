@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Item is a class that models items. They can be created via user input or from the DB.
  * Used to contain all relevant data during transactions between the two.
- * @author Oliver Pile
+ * @author s240260@uos.ac.uk
  */
 public class Item {
     private int ID;
