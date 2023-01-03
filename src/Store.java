@@ -127,15 +127,23 @@ public class Store {
 	 */
 	private static Item createNewItem(){
 		System.out.println("*** Entering new Item section ***");
-		System.out.println("Please enter item description");
-		String desc = userInputScanner.nextLine();
-		System.out.println("Please enter unit price");
-		double price = userInputScanner.nextDouble();
-		userInputScanner.nextLine();
-		System.out.println("Please enter total quantity in stock");
-		int quantity = userInputScanner.nextInt();
-		userInputScanner.nextLine();
-		return new Item(desc,price,quantity);
+		while(true){
+			try{
+				System.out.println("Please enter item description");
+				String desc = userInputScanner.nextLine();
+				System.out.println("Please enter unit price");
+				double price = userInputScanner.nextDouble();
+				userInputScanner.nextLine();
+				System.out.println("Please enter total quantity in stock");
+				int quantity = userInputScanner.nextInt();
+				userInputScanner.nextLine();
+				return new Item(desc,price,quantity);
+			}catch (InputMismatchException e){
+				System.out.println("Invalid input, please start again");
+				userInputScanner.nextLine();
+			}
+		}
+
 	}
 
 	/**
@@ -160,14 +168,19 @@ public class Store {
 			for (Item item : readItems) {
 				System.out.println(item.getItemDetails(true));
 			}
-			int selection = userInputScanner.nextInt();
-			userInputScanner.nextLine();
-			for (Item item : readItems) {
-				if (item.getID() == selection) {
-					return item;
+			try{
+				int selection = userInputScanner.nextInt();
+				userInputScanner.nextLine();
+				for (Item item : readItems) {
+					if (item.getID() == selection) {
+						return item;
+					}
 				}
+				throw new InputMismatchException("Incorrect entry");
+			}catch (InputMismatchException e){
+				System.out.println("Invalid choice, please try again.");
+				userInputScanner.nextLine();
 			}
-			System.out.println("Invalid choice, please try again.");
 		}
 	}
 
