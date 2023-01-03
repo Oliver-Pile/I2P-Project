@@ -19,7 +19,6 @@ public class Database {
     public Database(String name) throws SQLException {
         String url = String.format("jdbc:sqlite:%s.db",name);
         con = DriverManager.getConnection(url);
-        System.out.println("Connection established......");
         st = con.createStatement();
         createTable();
     }
